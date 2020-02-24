@@ -5,7 +5,7 @@ module.exports = {
   // 输出文件目录
   outputDir: process.env.NODE_ENV === 'production' ? 'dist' : 'devdist',
   // eslint-loader 是否在保存的时候检查
-  lintOnSave:false,
+  lintOnSave: false,
   /**
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
    **/
@@ -35,9 +35,9 @@ module.exports = {
     sourceMap: false,
     // css预设器配置项
     loaderOptions: {
-        sass:{
-            prependData:`@import "./src/styles/main.scss";`
-        }
+      sass: {
+        prependData: `@import "./src/styles/main.scss";`
+      }
     },
     // 启用 CSS modules for all css / pre-processor files.
     modules: false
@@ -51,22 +51,24 @@ module.exports = {
   pwa: {},
   // webpack-dev-server 相关配置
   devServer: {
-    open: false, // 编译完成是否打开网页
-    host: '0.0.0.0', // 指定使用地址，默认localhost,0.0.0.0代表可以被外界访问
-    port: 8080, // 访问端口
-    https: false, // 编译失败时刷新页面
-    hot: true, // 开启热加载
-    hotOnly: false,
-    proxy: null, // 设置代理
-    overlay: { // 全屏模式下是否显示脚本错误
-      warnings: true,
-      errors: true
+    open: false, //是否自动弹出浏览器页面
+    host: "localhost", 
+    port: '8080',
+    https: false,
+    hotOnly: false, 
+    proxy: {
+        '/devApi': {
+            target: 'http://localhost:3000', //API服务器的地址
+            ws: true,  //代理websockets
+            changeOrigin: true, // 虚拟的站点需要更管origin
+            pathRewrite: {   //重写路径 比如'/api/aaa/ccc'重写为'/aaa/ccc'
+                '^/devApi': ''
+            }
+        }
     },
-    before: app => {
-    }
-  },
+  }
   /**
    * 第三方插件配置
    */
-  pluginOptions: {}
+  // pluginOptions: {}
 }
